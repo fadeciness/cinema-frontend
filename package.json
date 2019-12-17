@@ -1,21 +1,21 @@
 {
-  "name": "front",
+  "name": "cinema-frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "The best cinema in NN",
   "main": "index.js",
   "scripts": {
     "start": "live-server --entry-file=index.html"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coursar/rosbank-frontend.git"
+    "url": "git+https://github.com/fadeciness/cinema-frontend.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/coursar/rosbank-frontend/issues"
+    "url": "https://github.com/fadeciness/cinema-frontend/issues"
   },
-  "homepage": "https://github.com/coursar/rosbank-frontend#readme",
+  "homepage": "https://github.com/fadeciness/cinema-frontend#readme",
   "dependencies": {
     "live-server": "^1.2.1"
   },

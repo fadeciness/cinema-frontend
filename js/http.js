@@ -4,7 +4,7 @@ export default class Api {
   }
 
   get(path, headers = {}, onSuccess = null, onFail = null) {
-    this.makeRequest(path, 'GET', {}, null, onSuccess, onFail)
+    this.makeRequest(path, 'GET', headers, null, onSuccess, onFail)
   };
 
   post(path, data, headers = {}, onSuccess = null, onFail = null) {
