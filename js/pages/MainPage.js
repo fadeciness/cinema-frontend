@@ -252,7 +252,7 @@ export default class MainPage {
                 <div class="card-footer">
                     <div class="row">
                         <div class="col">
-                            <a href="/sessions?film_id=${film.id}" data-action="get-sessions" class="btn btn-sm btn-primary">Timetable</a>
+                            <a href="/sessions?filmid=${film.id}" data-action="get-sessions" class="btn btn-sm btn-primary">Timetable</a>
                         </div>
                         <div class="col text-right">
                             <a href="#" data-action="edit" class="btn btn-sm btn-primary">Edit</a>
