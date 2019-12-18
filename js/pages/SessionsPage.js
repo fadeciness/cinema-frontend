@@ -121,7 +121,7 @@ export default class SessionPage {
                   this._idInputEl.value = 0;
                   this._hallNumberInputEl.value = 1;
                   this._type3DInputEl.checked = false;
-                  this._dateInputEl.value = "2019-12-21T14:30";
+                  this._dateInputEl.value = "2019-12-21T14:00";
                   this._priceInputEl.value = 100;
                   this.loadAll();
                 },
@@ -153,7 +153,27 @@ export default class SessionPage {
   }
 
   convert(timestamp) {
-
+    let a = new Date(timestamp);
+    let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let year = a.getFullYear();
+    let month = a.getMonth();
+    if (numbers.indexOf(month) != -1) {
+      month = '0' + month.toString();
+    }
+    let day = a.getDay();
+    if (numbers.indexOf(day) != -1) {
+      day = '0' + day.toString();
+    }
+    let hour = a.getHours();
+    if (numbers.indexOf(hour) != -1) {
+      hour = '0' + hour.toString();
+    }
+    let min = a.getMinutes();
+    if (numbers.indexOf(min) != -1) {
+      min = '0' + min.toString();
+    }
+    let time = year.toString() + '-' + month.toString() + '-' + day.toString() + 'T' + hour.toString() + ':' + min.toString();
+    return time;
   }
 
   rebuildList(sessions) {
@@ -207,12 +227,11 @@ export default class SessionPage {
         evt.preventDefault();
         this._idInputEl.value = session.id;
         this._hallNumberInputEl.value = session.hallNumber;
-        this._type3DInputEl.value = session.type3D;
-        const date = new Date(session.date*1000);
-        let showDate = date.getFullYear().toString() + '-' + date.getMonth().toString() + '-' + date.getDay().toString() + 'T';
-        let showTime = date.getHours().toString() + ':' + date.getMinutes().toString();
-        this._dateInputEl.value = showDate + showTime;
-        this._priceInputEl = session.priceInRub;
+        this._type3DInputEl.checked = session.type3D;
+        // let showDate = date.getFullYear().toString() + '-' + date.getMonth().toString() + '-' + date.getDay().toString() + 'T';
+        // let showTime = date.getHours().toString() + ':' + date.getMinutes().toString();
+        this._dateInputEl.value = this.convert(session.date);
+        this._priceInputEl.value = session.priceInRub;
       });
       sessionEl.querySelector('[data-action=remove]').addEventListener('click', evt => {
         evt.preventDefault();
