@@ -134,18 +134,28 @@ export default class MainPage {
 
 
 
-
         this._imageInputEl.addEventListener('change', evt => {
-            // evt.currentTarget -> тот, чей обработчик события сейчас выполняется
-            // File -> Blob
             const [file] = Array.from(evt.currentTarget.files);
-            // FormData -> сам выставит нужные заголовки и закодирует тело запроса
             const formData = new FormData();
             formData.append('file', file);
             this._context.post('/files/multipart', formData, {},
                 text => {
                     const data = JSON.parse(text);
                     this._imageNameInputEl.value = data.name;
+                },
+                error => {
+                    this.showError(error);
+                });
+        });
+
+        this._trailerInputEl.addEventListener('change', evt => {
+            const [file] = Array.from(evt.currentTarget.files);
+            const formData = new FormData();
+            formData.append('file', file);
+            this._context.post('/files/multipart', formData, {},
+                text => {
+                    const data = JSON.parse(text);
+                    this._trailerNameInputEl.value = data.name;
                 },
                 error => {
                     this.showError(error);
@@ -243,9 +253,9 @@ export default class MainPage {
             filmEl.innerHTML = `
             <div class="card mt-2">
                 ${filmImage}<br>
-                ${filmTrailer}
                 <div class="card-body">
                     <h3><p class="card-text" align="center">${film.title}</p></h3><hr>
+                    ${filmTrailer}
                     <p class="card-text">Description: ${film.description}</p>
                     <p class="card-text">Genres: ${filmGenres}</p>
                 </div>
