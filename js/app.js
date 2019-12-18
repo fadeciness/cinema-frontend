@@ -92,8 +92,8 @@ const router = new Router();
 router.register('/', MainPage);
 router.register('/messages', MessagesPage);
 // тут надо использовать регулярки, результат разбора будет положен в pathParams()
-router.register(/sessions\/(\d+)/, SessionsPage);
-router.register(/sessions\/(\d+)\/(\d+)\/tickets/, TicketsPage);
+router.register(/^\/sessions\/(\d+)$/, SessionsPage);
+router.register(/^\/sessions\/(\d+)\/(\d+)\/tickets$/, TicketsPage);
 
 const [backendUrl, websocketUrl] = ['localhost', '127.0.0.1'].includes(window.location.hostname) ?
   ['http://localhost:9999', 'ws://localhost:9999/ws'] : ['https://front-cinema.herokuapp.com', 'wss://front-cinema.herokuapp.com/ws'];
