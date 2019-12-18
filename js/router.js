@@ -19,9 +19,9 @@ export default class Router {
       throw new Error(`no component registered for route: ${path}`);
     }
     if (push) {
-      window.history.pushState(null, '', route[0]);
+      window.history.pushState(null, '', path);
     }
-    return {component: route[1], params: Router.parseRouteParams(route[0], path)};
+    return {component: route[1], params: Router.parseRouteParams(route, path)};
   }
 
   static isRouteMatch([k, v], path) {
@@ -33,7 +33,8 @@ export default class Router {
 
   static parseRouteParams([k, v], path) {
     if (k instanceof RegExp) {
-      return k.matches(path);
+      const {groups} = k.exec(path);
+      return groups;
     }
     return {};
   }
