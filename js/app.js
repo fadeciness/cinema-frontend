@@ -3,6 +3,7 @@ import Translator from './translator.js';
 import Router from './router.js';
 import MainPage from './pages/MainPage.js'
 import MessagesPage from './pages/MessagesPage.js'
+import SessionsPage from "./pages/SessionsPage.js";
 
 class Context {
   constructor(rootEl, api, router, translator, mediaUrl, websocketUrl) {
@@ -90,10 +91,10 @@ const router = new Router();
 
 router.register('/', MainPage);
 router.register('/messages', MessagesPage);
+router.register('/sessions', SessionsPage);
 
 const [backendUrl, websocketUrl] = ['localhost', '127.0.0.1'].includes(window.location.hostname) ?
   ['http://localhost:9999', 'ws://localhost:9999/ws'] : ['https://front-cinema.herokuapp.com', 'wss://front-cinema.herokuapp.com/ws'];
 
 const api = new Api(`${backendUrl}`);
 new Context(document.getElementById('root'), api, router, translator, backendUrl, websocketUrl);
-

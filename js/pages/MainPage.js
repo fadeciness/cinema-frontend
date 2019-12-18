@@ -252,7 +252,7 @@ export default class MainPage {
                 <div class="card-footer">
                     <div class="row">
                         <div class="col">
-                            <a href="/sessions/${film.id}" data-action="get-sessions" class="btn btn-sm btn-primary">Timetable</a>
+                            <a href="/sessions?film_id=${film.id}" data-action="get-sessions" class="btn btn-sm btn-primary">Timetable</a>
                         </div>
                         <div class="col text-right">
                             <a href="#" data-action="edit" class="btn btn-sm btn-primary">Edit</a>
@@ -265,13 +265,7 @@ export default class MainPage {
 
             filmEl.querySelector('[data-action=get-sessions]').addEventListener('click', evt => {
                 evt.preventDefault();
-                // this._context.route(evt.currentTarget.getAttribute('href'));
-                this._context.get(`/sessions/${film.id}`, null, {},
-                    () => {
-                        this.loadAll();
-                    }, error => {
-                        this.showError(error);
-                    });
+                this._context.route(evt.currentTarget.getAttribute('href'));
             });
             filmEl.querySelector('[data-action=edit]').addEventListener('click', evt => {
                 evt.preventDefault();
