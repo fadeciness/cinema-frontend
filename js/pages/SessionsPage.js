@@ -3,12 +3,12 @@ export default class MessagesPage {
   constructor(context) {
     this._context = context;
     this._rootEl = context.rootEl();
-    this._websocket = null;
   }
 
   init() {
+    this._filmId = this._context.pathParams().filmId;
     this._rootEl.innerHTML = `
-            <h1>HELLO WORLD</h1>
+            <h1>Film ID: ${this._filmId}</h1>
 <!--      <div class="container h-100">-->
 <!--        <div class="h-100 d-flex flex-column">-->
 <!--          <nav class="navbar navbar-expand-lg navbar-light bg-light">-->

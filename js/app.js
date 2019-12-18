@@ -14,12 +14,12 @@ class Context {
       this.route(path, false);
     });
     this._translator = translator;
-    this._path = '/';
+    this._path = window.location.pathname; // убрать, если при загрузке нужен редирект на главную страницу
     this._pathParams = {};
     this._component = null;
     this._mediaUrl = mediaUrl;
     this._websocketUrl = websocketUrl;
-    this.route(this._path);
+    this.route(this._path, false);
   }
 
   rootEl() {
@@ -27,7 +27,6 @@ class Context {
   }
 
   translate(code) {
-    console.log(code);
     return this._translator.translate(code);
   }
 
@@ -91,7 +90,9 @@ const router = new Router();
 
 router.register('/', MainPage);
 router.register('/messages', MessagesPage);
-router.register('/sessions', SessionsPage);
+// тут надо использовать регулярки, результат разбора будет положен в pathParams()
+// ?<filmId> - это именованная группа
+router.register(/sessions\/(?<filmId>\d+)/, SessionsPage);
 
 const [backendUrl, websocketUrl] = ['localhost', '127.0.0.1'].includes(window.location.hostname) ?
   ['http://localhost:9999', 'ws://localhost:9999/ws'] : ['https://front-cinema.herokuapp.com', 'wss://front-cinema.herokuapp.com/ws'];
