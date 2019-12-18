@@ -6,7 +6,7 @@ export default class MessagesPage {
   }
 
   init() {
-    this._filmId = this._context.pathParams().filmId;
+    this._filmId = this._context.pathParams()[0];
     this._rootEl.innerHTML = `
             <h1>Film ID: ${this._filmId}</h1>
 <!--      <div class="container h-100">-->
