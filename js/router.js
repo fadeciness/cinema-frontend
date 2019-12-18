@@ -33,8 +33,8 @@ export default class Router {
 
   static parseRouteParams([k, v], path) {
     if (k instanceof RegExp) {
-      const {groups} = k.exec(path);
-      return groups;
+      const match = k.exec(path).slice(1);
+      return match
     }
     return {};
   }
