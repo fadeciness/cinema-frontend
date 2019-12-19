@@ -48,13 +48,13 @@ export default class MainPage {
                                     <label for="image-input">Постер</label>
                                     <div class="custom-file">
                                         <input type="hidden" data-id="image-name-input">
-                                        <input type="file" data-id="image-input" class="custom-file-input" id="image-input">
+                                        <input type="file" data-id="image-input" class="custom-file-input" id="image-input" accept="image/jpeg,image/png">
                                         <label class="custom-file-label" for="image-input">Выберите изображение</label>
                                     </div>
                                     <label for="trailer-input">Трейлер</label>
                                     <div class="custom-file">
                                         <input type="hidden" data-id="trailer-name-input">
-                                        <input type="file" data-id="trailer-input" class="custom-file-input" id="trailer-input">
+                                        <input type="file" data-id="trailer-input" class="custom-file-input" id="trailer-input" accept="video/mp4,video/webm">
                                         <label class="custom-file-label" for="trailer-input">Выберите трейлер</label>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@ export default class MainPage {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Error!</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ошибка</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -82,7 +82,7 @@ export default class MainPage {
                 <div data-id="error-message" class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
@@ -226,7 +226,27 @@ export default class MainPage {
 
             let filmGenres = '';
             for (const genre of film.genres) {
-                filmGenres += genre.toString().toLowerCase() + ', ';
+                if (genre.toString() === 'COMEDY') {
+                    filmGenres += 'комедия, ';
+                }
+                if (genre.toString() === 'CARTOON') {
+                    filmGenres += 'мультфильм, ';
+                }
+                if (genre.toString() === 'ADVENTURE') {
+                    filmGenres += 'приключение, ';
+                }
+                if (genre.toString() === 'ACTION') {
+                    filmGenres += 'боевик, ';
+                }
+                if (genre.toString() === 'DRAMA') {
+                    filmGenres += 'драма, ';
+                }
+                if (genre.toString() === 'FANTASY') {
+                    filmGenres += 'фэнтези, ';
+                }
+                if (genre.toString() === 'FAMILY') {
+                    filmGenres += 'семейный, ';
+                }
             }
             filmGenres = filmGenres.substr(0, filmGenres.length - 2);
 
@@ -245,8 +265,8 @@ export default class MainPage {
                             <a href="/sessions/${film.id}" data-action="get-sessions" class="btn btn-lg btn-primary">Сеансы</a>
                         </div>
                         <div class="col text-right">
-                            <a href="#" data-action="edit" class="btn btn-sm btn-primary">Удалить</a>
-                            <a href="#" data-action="remove" class="btn btn-sm btn-danger">Изменить</a>
+                            <a href="#" data-action="edit" class="btn btn-sm btn-primary">Изменить</a>
+                            <a href="#" data-action="remove" class="btn btn-sm btn-danger">Удалить</a>
                         </div>
                     </div>
                 </div>
@@ -290,7 +310,13 @@ export default class MainPage {
 
     showError(error) {
         const data = JSON.parse(error);
-        const message = this._context.translate(data.message);
+        let message = this._context.translate(data.message);
+        console.log(message);
+        if (data.errors) {
+            for (let code in data.errors) {
+                message += '. ' + this._context.translate(data.errors[code]);
+            }
+        }
         this._errorMessageEl.textContent = message;
         this._errorModal.modal('show');
     }

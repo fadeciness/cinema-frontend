@@ -60,7 +60,7 @@ export default class SessionPage {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Error!</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ошибка</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -68,7 +68,7 @@ export default class SessionPage {
                 <div data-id="error-message" class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
@@ -267,7 +267,13 @@ export default class SessionPage {
 
   showError(error) {
     const data = JSON.parse(error);
-    const message = this._context.translate(data.message);
+    let message = this._context.translate(data.message);
+    console.log(message);
+    if (data.errors) {
+      for (let code in data.errors) {
+        message += '. ' + this._context.translate(data.errors[code]);
+      }
+    }
     this._errorMessageEl.textContent = message;
     this._errorModal.modal('show');
   }
