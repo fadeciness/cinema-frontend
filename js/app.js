@@ -93,7 +93,7 @@ router.register(/^\/sessions\/(\d+)$/, SessionsPage);
 router.register(/^\/sessions\/(\d+)\/(\d+)\/tickets$/, TicketsPage);
 
 const [backendUrl, websocketUrl] = ['localhost', '127.0.0.1'].includes(window.location.hostname) ?
-  ['http://localhost:9999', 'ws://localhost:9999/ws'] : ['https://front-cinema.herokuapp.com', 'wss://front-cinema.herokuapp.com/ws'];
+  ['http://localhost:9999', 'ws://localhost:9999/ws'] : ['https://back-cinema.herokuapp.com', 'wss://back-cinema.herokuapp.com/ws'];
 
 const api = new Api(`${backendUrl}`);
 new Context(document.getElementById('root'), api, router, translator, backendUrl, websocketUrl);
