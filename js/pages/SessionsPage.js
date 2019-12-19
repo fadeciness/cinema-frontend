@@ -9,20 +9,20 @@ export default class SessionPage {
     this._rootEl.innerHTML = `
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">My Cinema</a>
+                <a class="navbar-brand" href="">My Cinema</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-supported-content">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbar-supported-content">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" data-id="menu-main" href="/">Films</a>
+                            <a class="nav-link" data-id="menu-main" href="/">Список фильмов</a>
                         </li>
                     </ul>
                 </div>
             </nav>
             <div class="row">
-                <div class="col">
+                <div class="col-4">
                     <div class="card">
                         <div class="card-body">
                             <form data-id="session-edit-form">
@@ -31,17 +31,22 @@ export default class SessionPage {
                                     <label for="hall-number-input">Зал</label>
                                     <input type="number" min="1" data-id="hall-number-input" class="form-control" id="hall-number-input" value="1">
                                     
-                                    <label for="type3d-input">3D</label>
-                                    <input type="checkbox" data-id="type3d-input" class="form-control" id="type3d-input">
+                                    <br>
+                                    <div class="form-check">
+                                        <input type="checkbox" data-id="type3d-input" class="form-check-input" id="type3d-input">
+                                        <label class="form-check-label" for="type3d-input">3D</label>
+                                    </div>
+                                    <br>
                                     
                                     <label for="date-input">Дата и время</label>
                                     <input type="datetime-local" data-id="date-input" class="form-control" id="date-input" value="2019-12-21T14:00">
+                                    <br>
                                     
                                     <label for="price-input">Цена билета</label>
                                     <input type="number" min="0" data-id="price-input" class="form-control" id="price-input" value="100">
                                     
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
                             </form>
                         </div>
                     </div>
@@ -97,16 +102,8 @@ export default class SessionPage {
           text => {
             const film = JSON.parse(text);
 
-            console.log(this._dateInputEl.value);
-
             let dateObject = new Date(this._dateInputEl.value);
             let timestamp = dateObject.valueOf().toString();
-
-            console.log(timestamp);
-
-            // timestamp = timestamp.substr(0, timestamp.length - 3);
-
-            console.log(Number(timestamp));
 
             const data = {
               id: Number(this._idInputEl.value),
@@ -137,7 +134,7 @@ export default class SessionPage {
     });
 
     this.loadAll();
-    // this.pollNewPosts();
+    this.pollNewSessions();
   }
 
   loadAll() {
@@ -188,13 +185,29 @@ export default class SessionPage {
       }
 
       let time = new Date(session.date);
-      console.log("день " + time.getDay());
-      console.log("месяц " + time.getMonth());
-      console.log("год " + time.getFullYear());
-      console.log("час " + time.getHours());
-      console.log("минуты " + time.getMinutes());
-      let showDate = time.getDay().toString() + '.' + time.getMonth().toString() + '.' + time.getFullYear().toString();
-      let showTime = time.getHours().toString() + ':' + time.getMinutes().toString();
+      const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      let day = time.getDay().toString();
+      if (numbers.indexOf(Number(day)) !== -1) {
+        day = '0' + day;
+      }
+
+      let month = time.getMonth().toString();
+      if (numbers.indexOf(Number(month)) !== -1) {
+        month = '0' + month;
+      }
+
+      let hour = time.getHours().toString();
+      if (numbers.indexOf(Number(hour)) !== -1) {
+        hour = '0' + hour;
+      }
+
+      let minute = time.getMinutes().toString();
+      if (numbers.indexOf(Number(minute)) !== -1) {
+        minute = '0' + minute;
+      }
+
+      let showDate = day + '.' + month + '.' + time.getFullYear().toString();
+      let showTime = hour + ':' + minute;
 
       sessionEl.innerHTML = `
             <div class="card mt-2">
@@ -208,11 +221,11 @@ export default class SessionPage {
                 <div class="card-footer">
                     <div class="row">
                         <div class="col">
-                            <a href="/sessions/${this._filmId}/${session.id}/tickets" data-action="get-tickets" class="btn btn-sm btn-primary">Купить билеты</a>
+                            <a href="/sessions/${this._filmId}/${session.id}/tickets" data-action="get-tickets" class="btn btn-bg btn-primary">Купить билеты</a>
                         </div>
                         <div class="col text-right">
-                            <a href="#" data-action="edit" class="btn btn-sm btn-primary">Edit</a>
-                            <a href="#" data-action="remove" class="btn btn-sm btn-danger">Remove</a>
+                            <a href="#" data-action="edit" class="btn btn-sm btn-primary">Изменить</a>
+                            <a href="#" data-action="remove" class="btn btn-sm btn-danger">Удалить</a>
                         </div>
                     </div>
                 </div>
@@ -228,8 +241,6 @@ export default class SessionPage {
         this._idInputEl.value = session.id;
         this._hallNumberInputEl.value = session.hallNumber;
         this._type3DInputEl.checked = session.type3D;
-        // let showDate = date.getFullYear().toString() + '-' + date.getMonth().toString() + '-' + date.getDay().toString() + 'T';
-        // let showTime = date.getHours().toString() + ':' + date.getMinutes().toString();
         this._dateInputEl.value = this.convert(session.date);
         this._priceInputEl.value = session.priceInRub;
       });
@@ -247,10 +258,10 @@ export default class SessionPage {
   }
 
 
-  pollNewPosts() {
+  pollNewSessions() {
     this._timeout = setTimeout(() => {
       this.loadAll();
-      this.pollNewPosts();
+      this.pollNewSessions();
     }, 5000);
   }
 

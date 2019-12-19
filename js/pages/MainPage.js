@@ -1,4 +1,3 @@
-// TODO: remove code duplication
 export default class MainPage {
     constructor(context) {
         this._context = context;
@@ -9,27 +8,16 @@ export default class MainPage {
         this._rootEl.innerHTML = `
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">My Cinema</a>
+                <a class="navbar-brand" href="">My Cinema</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-supported-content">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbar-supported-content">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" data-id="menu-main" href="/">Films</a>
+                            <a class="nav-link" data-id="menu-main" href="/">Список фильмов</a>
                         </li>
-<!--                        TODO    -->
-<!--              <li class="nav-item">-->
-<!--                <a class="nav-link" data-id="menu-messages" href="/messages">Messages</a>-->
-<!--              </li>-->
-              <!--                        TODO    -->
                     </ul>
-                    <!--                        TODO    -->
-<!--            <form data-id="search-form" class="form-inline my-2 my-lg-0">-->
-<!--              <input class="form-control mr-sm-2" type="search" placeholder="Search">-->
-<!--              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-<!--            </form>-->
-            <!--                        TODO    -->
                 </div>
             </nav>
             <div class="row">
@@ -39,38 +27,38 @@ export default class MainPage {
                             <form data-id="film-edit-form">
                                 <input type="hidden" data-id="id-input" value="0">
                                 <div class="form-group">
-                                    <label for="title-input">Title</label>
+                                    <label for="title-input">Название:</label>
                                     <input type="text" data-id="title-input" class="form-control" id="title-input">
                                     
-                                    <label for="description-input">Description</label>
+                                    <label for="description-input">Описание:</label>
                                     <input type="text" data-id="description-input" class="form-control" id="description-input">
                                     
-                                    <label for="genres-input">Genres</label>
+                                    <label for="genres-input">Жанры:</label>
                                     <select class="custom-select" data-id="genres-input" multiple>
-                                        <option value="COMEDY">Comedy</option>
-                                        <option value="CARTOON">Cartoon</option>
-                                        <option value="ADVENTURE">Adventure</option>
-                                        <option value="ACTION">Action</option>
-                                        <option value="DRAMA">Drama</option>
-                                        <option value="FANTASY">Fantasy</option>
-                                        <option value="FAMILY">Family</option>
+                                        <option value="COMEDY">Комедия</option>
+                                        <option value="CARTOON">Мультфильм</option>
+                                        <option value="ADVENTURE">Приключение</option>
+                                        <option value="ACTION">Боевик</option>
+                                        <option value="DRAMA">Драма</option>
+                                        <option value="FANTASY">Фэнтези</option>
+                                        <option value="FAMILY">Семейный</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="image-input">Image</label>
+                                    <label for="image-input">Постер</label>
                                     <div class="custom-file">
                                         <input type="hidden" data-id="image-name-input">
                                         <input type="file" data-id="image-input" class="custom-file-input" id="image-input">
-                                        <label class="custom-file-label" for="image-input">Choose file</label>
+                                        <label class="custom-file-label" for="image-input">Выберите изображение</label>
                                     </div>
-                                    <label for="trailer-input">Trailer</label>
+                                    <label for="trailer-input">Трейлер</label>
                                     <div class="custom-file">
                                         <input type="hidden" data-id="trailer-name-input">
                                         <input type="file" data-id="trailer-input" class="custom-file-input" id="trailer-input">
-                                        <label class="custom-file-label" for="trailer-input">Choose file</label>
+                                        <label class="custom-file-label" for="trailer-input">Выберите трейлер</label>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
                             </form>
                         </div>
                     </div>
@@ -104,12 +92,6 @@ export default class MainPage {
         this._rootEl.querySelector('[data-id=menu-main]').addEventListener('click', evt => {
             evt.preventDefault();
         });
-        //TODO
-        // this._rootEl.querySelector('[data-id=menu-messages]').addEventListener('click', evt => {
-        //     evt.preventDefault();
-        //     this._context.route(evt.currentTarget.getAttribute('href'));
-        // });
-        //TODO
 
 
 
@@ -167,7 +149,6 @@ export default class MainPage {
         this._filmCreateFormEl.addEventListener('submit', evt => {
             evt.preventDefault();
             let selectedGenres = [];
-            // const selectedOptions = this._genresInputEl.prototype.selectedOptions;
             const options = this._genresInputEl.getElementsByTagName('option');
             for (const option of options) {
                 if (option.selected) {
@@ -203,7 +184,6 @@ export default class MainPage {
         });
 
         this.loadAll();
-        // this.pollNewPosts();
     }
 
     loadAll() {
@@ -228,7 +208,7 @@ export default class MainPage {
             if (film.image !== null) {
                 if (film.image.endsWith('.png') || film.image.endsWith('.jpg')) {
                     filmImage += `
-                        <img src="${this._context.mediaUrl()}/${film.image}" class="card-img-top" alt="No poster">
+                        <img src="${this._context.mediaUrl()}/${film.image}" class="card-img-top" alt="Нет постера">
                     `;
                 }
             }
@@ -256,17 +236,17 @@ export default class MainPage {
                 <div class="card-body">
                     <h3><p class="card-text" align="center">${film.title}</p></h3><hr>
                     ${filmTrailer}
-                    <p class="card-text">Description: ${film.description}</p>
-                    <p class="card-text">Genres: ${filmGenres}</p>
+                    <p class="card-text">Описание: ${film.description}</p>
+                    <p class="card-text">Жанр: ${filmGenres}</p>
                 </div>
                 <div class="card-footer">
                     <div class="row">
                         <div class="col">
-                            <a href="/sessions/${film.id}" data-action="get-sessions" class="btn btn-sm btn-primary">Timetable</a>
+                            <a href="/sessions/${film.id}" data-action="get-sessions" class="btn btn-lg btn-primary">Сеансы</a>
                         </div>
                         <div class="col text-right">
-                            <a href="#" data-action="edit" class="btn btn-sm btn-primary">Edit</a>
-                            <a href="#" data-action="remove" class="btn btn-sm btn-danger">Remove</a>
+                            <a href="#" data-action="edit" class="btn btn-sm btn-primary">Удалить</a>
+                            <a href="#" data-action="remove" class="btn btn-sm btn-danger">Изменить</a>
                         </div>
                     </div>
                 </div>
@@ -308,15 +288,6 @@ export default class MainPage {
         }
     }
 
-
-
-    pollNewPosts() {
-        this._timeout = setTimeout(() => {
-            this.loadAll();
-            this.pollNewPosts();
-        }, 5000);
-    }
-
     showError(error) {
         const data = JSON.parse(error);
         const message = this._context.translate(data.message);
@@ -325,6 +296,6 @@ export default class MainPage {
     }
 
     destroy() {
-        clearTimeout(this._timeout);
+
     }
 }

@@ -2,7 +2,6 @@ import Api from './http.js';
 import Translator from './translator.js';
 import Router from './router.js';
 import MainPage from './pages/MainPage.js'
-import MessagesPage from './pages/MessagesPage.js'
 import SessionsPage from './pages/SessionsPage.js';
 import TicketsPage from './pages/TicketsPage.js';
 
@@ -15,7 +14,7 @@ class Context {
       this.route(path, false);
     });
     this._translator = translator;
-    this._path = window.location.pathname; // убрать, если при загрузке нужен редирект на главную страницу
+    this._path = window.location.pathname;
     this._pathParams = {};
     this._component = null;
     this._mediaUrl = mediaUrl;
@@ -90,8 +89,6 @@ const translator = new Translator();
 const router = new Router();
 
 router.register('/', MainPage);
-router.register('/messages', MessagesPage);
-// тут надо использовать регулярки, результат разбора будет положен в pathParams()
 router.register(/^\/sessions\/(\d+)$/, SessionsPage);
 router.register(/^\/sessions\/(\d+)\/(\d+)\/tickets$/, TicketsPage);
 
